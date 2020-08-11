@@ -1,7 +1,6 @@
 opencv-python-headless
 mtcnn
 tensorflow >= 2.3.0
-fastapi
-pydantic
-typing
+flask
 gunicorn
+numpy

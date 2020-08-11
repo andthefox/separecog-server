@@ -1,18 +1,29 @@
-# api.py
+# main.py
 # -*- coding: utf-8 -*-
 
-from typing import Optional
-from fastapi import FastAPI
-from pydantic import BaseModel
-
 import cv2
-# from mtcnn import MTCNN
+import numpy as np
+from mtcnn import MTCNN
+from flask import Flask, request, jsonify
 
-# detector = MTCNN()
+detector = MTCNN()
 
-app = FastAPI()
+app = Flask(__name__)
 
 
-@app.post("/")
+@app.route('/')
+def index():
+    return 'Hello'
+
+
+@app.route("/imageprocess", methods=['POST'])
 def send_result():
-    return {'hello': 'world'}
+    nparr = np.fromstring(request.data, np.uint8)
+    img_np = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    result = detector.detect_faces(img_np)
+    print(result)
+    return jsonify(result)
+
+
+if __name__ == '__main__':
+    app.run(debug=True, threaded=True, port=80)
