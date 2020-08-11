@@ -3,4 +3,4 @@ mtcnn
 tensorflow >= 2.3.0
 flask
 gunicorn
-numpy
+numpy<1.19.0,>=1.16.0
